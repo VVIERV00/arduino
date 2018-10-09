@@ -1,9 +1,12 @@
 #include <Keypad.h>
 #include <Key.h>
 
-
+const int rojo = 10;
+const int verde = 11;
 void setup() {
-
+  
+  pinMode(rojo, OUTPUT);
+  pinMode(verde, OUTPUT);
   Serial.begin(9600);
   
 }
@@ -24,34 +27,37 @@ void loop() {
   byte colPins[COLS] = {7, 6, 5, 4}; 
   
  Keypad customKeypad = Keypad(makeKeymap(hexaKeys), rowPins, colPins, ROWS, COLS); 
-  int values[] = {0,0,0,0};
+  char values[] = {'0', '0', '0', '0'};
   int index = 0;
   while(true){
   char customKey = customKeypad.getKey();
   
   if (customKey){
+    Serial.println(customKey);
     if (customKey != 'D'){
        values[index] = customKey;
-       index++;
-       Serial.println("in" + index);
-       index = index % 4;
-              Serial.println("in" + index);
+       index = (index+1) % 4;
 
     }else{
       if ((values[0] == '1') && (values[1] == '2') && (values[2] == '3') && (values[3] == '4')){
-        Serial.println("correcto");
+        Serial.println("you are now authenticated");
+        digitalWrite(verde, HIGH);
+        digitalWrite(rojo, LOW);
+
       }else{
-        Serial.println("pass wrong");
-        Serial.println(values[0] + " " + index);
+        digitalWrite(rojo, HIGH);
+        digitalWrite(verde, LOW);
+        Serial.println("wrong pass");
+        Serial.println("res: ");
+        Serial.println(values[0]);
+        Serial.println(values[1]);
+        Serial.println(values[2]);
+        Serial.println(values[3]);
       }
     }
   }
   }
 } 
-void funcionPrincipal(){
-
-  
-}
 
 
 
