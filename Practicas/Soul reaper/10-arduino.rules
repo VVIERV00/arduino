@@ -1,0 +1,1 @@
+ACTION=="add", SUBSYSTEM=="tty", SUBSYSTEMS=="usb", ATTRS{product}=="Arduino Uno", ATTRS{manufacturer}=="Arduino (www.arduino.cc)", ATTRS{idProduct}=="0001", ATTRS{idVendor}=="2341",   RUN+="/home/victor/Desktop/script.sh"
