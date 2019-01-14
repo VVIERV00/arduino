@@ -17,6 +17,39 @@ port0 = "/dev/serial/by-id/usb-Arduino__www.arduino.cc__Arduino_Uno_556393039343
 port1 = "/dev/ttyACM1"
 rate = 5600
 
+def sendTemperatura(valor):
+
+    s1.write(cmd.encode('temperatura_'+valor)+'\r\n')
+
+
+def sendC02(valor):
+    s1.write(cmd.encode('co2_'+valor)+'\r\n')
+
+def sendPresencia(valor):
+    s1.write(cmd.encode('presencia_'+valor)+'\r\n')
+
+def sendMusica(valor):
+    s1.write(cmd.encode('musica_'+valor)+'\r\n')
+
+
+def muestra_CO2():
+    while s1.inWaiting() == 0:
+        sleep(0.2)
+
+    inputvalue = s1.readline()
+    inputvalue = inputvalue.decode('utf-8')
+    #imprimir el valor del CO2 en la pantalla
+    return inputvalue
+
+def pon_musica(cancion):
+    s1.write(cmd.encode('001_'+cancion)+'\r\n')
+    inputvalue = s1.readline()
+    inputvalue = inputvalue.decode('utf-8')
+    return inputvalue
+
+def presencia()
+
+
 try:
     s1 = serial.Serial(port0, rate)
 except:
@@ -31,8 +64,18 @@ uno = "Hola pi"
 otro = "acabose"
 loop = True
 while loop:
-
     if s1.inWaiting() > 0:
+        inputvalue = s1.readline()
+        inputvalue = inputvalue.decode('utf-8')
+        if inputvalue in ordenes.keys():
+            ordenes[inputvalue]()
+
+
+
+
+
+
+    """if s1.inWaiting() > 0:
         print("check")
         inputvalue = s1.readline()
         print("check")
@@ -46,7 +89,7 @@ while loop:
                     s1.write(n.encode())
 
             except:
-                print("error")
+                print("error")"""
 
 s1.close()
 print("me cierro")
